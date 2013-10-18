@@ -35,7 +35,9 @@ public class PlayerController : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetButtonDown ("Fire1")) {
-			Attack ();
+			if (!animation.isPlaying) {
+				Attack ();
+			}
 		}
 	}
 
@@ -51,6 +53,6 @@ public class PlayerController : MonoBehaviour
 
 	void Attack ()
 	{
-		Debug.Log ("ATTACK!!");
+		animation.Play ();
 	}
 }
