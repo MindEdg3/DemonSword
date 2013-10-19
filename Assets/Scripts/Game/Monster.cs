@@ -3,6 +3,17 @@ using System.Collections;
 
 public class Monster : MonoBehaviour
 {
+	
+	private Transform _tr;
+
+	public Transform Tr {
+		get {
+			if (_tr == null) {
+				_tr = transform;
+			}
+			return _tr;
+		}
+	}
 	private PlayerController _myPlayer;
 
 	private PlayerController MyPlayer {

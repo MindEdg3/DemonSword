@@ -1,9 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
 	public float speed;
+	public float maxTargetDistance;
+	public Monster target;
+	public Weapon weapon;
+	
+	#region Properties
+	private Transform _tr;
+
+	public Transform Tr {
+		get {
+			if (_tr == null) {
+				_tr = transform;
+			}
+			return _tr;
+		}
+	}
+	
 	private Camera _myCamera;
 	
 	public Camera MyCamera {
@@ -25,6 +41,8 @@ public class PlayerController : MonoBehaviour
 			return _myCameraTr;
 		}
 	}
+	#endregion
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -34,9 +52,16 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Fire1")) {
+		// clear target that gone far away
+		if (target != null) {
+			if ((target.Tr.position - Tr.position).sqrMagnitude > maxTargetDistance * maxTargetDistance) {
+				target = null;
+			}
+		}
+		
+		if (Input.GetButton ("Fire1")) {
 			if (!animation.isPlaying) {
-				Attack ();
+				HandleAttack ();
 			}
 		}
 	}
@@ -50,9 +75,48 @@ public class PlayerController : MonoBehaviour
 			rigidbody.MoveRotation (Quaternion.LookRotation (forceDirection));
 		}
 	}
-
-	void Attack ()
+	
+	/// <summary>
+	/// Handles the attack.
+	/// </summary>
+	private void HandleAttack ()
 	{
+		// Get target
+		if (target == null) {
+			target = GetClosestTarget ();
+		}
+		// Attack target if it had been found
+		if (target != null) {
+			float resultedDamage = weapon.Attack (target);
+			Debug.Log (resultedDamage);
+		}
+		// Anyway play animation
 		animation.Play ();
+	}
+	
+	/// <summary>
+	/// Gets the closest target.
+	/// </summary>
+	/// <returns>
+	/// The closest target.
+	/// </returns>
+	private Monster GetClosestTarget ()
+	{
+		Monster ret = null;
+		
+		List<Monster> monsters = GameManager.Instance.monsters;
+		float closestMonsterRange = -1f;
+		
+		for (int i = 0; i < monsters.Count; i++) {
+			float rangeToMonster = (monsters [i].Tr.position - Tr.position).sqrMagnitude;
+			if (rangeToMonster < maxTargetDistance * maxTargetDistance) {
+				if (closestMonsterRange == -1f || rangeToMonster < closestMonsterRange) {
+					closestMonsterRange = rangeToMonster;
+					ret = monsters [i];
+				}
+			}
+		}
+		
+		return ret;
 	}
 }
