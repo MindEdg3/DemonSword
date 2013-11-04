@@ -98,6 +98,6 @@ public class Monster : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		MyNavigation.destination = MyPlayerTr.position;
+		MyNavigation.destination = MyPlayerTr.position - Vector3.up;
 	}
 }
