@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 		if (target == null) {
 			target = GetClosestTarget ();
 		}
-		// Attack target if it had been found
+		// Attack target if it have been found
 		if (target != null) {
 			float resultedDamage = weapon.Attack (target);
 			Debug.Log (resultedDamage);
