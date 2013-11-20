@@ -3,12 +3,28 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
+	
+		public static readonly int stateIdle = Animator.StringToHash ("Base Layer.idle");
+		public static readonly int stateRun = Animator.StringToHash ("Base Layer.run");
+		public static readonly int stateAttack = Animator.StringToHash ("Base Layer.attack");
 		public float speed;
 		public float maxTargetDistance;
 		public Monster target;
 		public Weapon weapon;
 	
 	#region Properties
+	
+		private Animator _myAnimator;
+
+		public Animator MyAnimator {
+				get {
+						if (_myAnimator == null) {
+								_myAnimator = GetComponentInChildren<Animator> ();
+						}
+						return _myAnimator;
+				}
+		}
+	
 		private Transform _tr;
 
 		public Transform Tr {
@@ -46,7 +62,7 @@ public class PlayerController : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
-	
+			
 		}
 	
 		// Update is called once per frame
@@ -66,9 +82,11 @@ public class PlayerController : MonoBehaviour
 		}
 				#else
 				if (Input.GetButton ("Fire1")) {
-						if (!animation.isPlaying) {
+						if (!MyAnimator.IsInTransition(0) && MyAnimator.GetCurrentAnimatorStateInfo (0).nameHash == stateIdle) {
 								HandleAttack ();
 						}
+				} else {
+						MyAnimator.SetBool ("attack", false);
 				}
 				#endif
 		}
@@ -94,12 +112,26 @@ public class PlayerController : MonoBehaviour
 
 		forceDirection = Quaternion.Euler (0f, cameraRotation.y, 0f) * new Vector3 (dir.x, 0f, dir.y) * speed;
 #endif
-				rigidbody.AddForce (forceDirection, ForceMode.Acceleration);
+		rigidbody.velocity = forceDirection;// .AddForce (forceDirection, ForceMode.Acceleration);
 				if (forceDirection != Vector3.zero) {
 						rigidbody.MoveRotation (Quaternion.LookRotation (forceDirection));
 				}
 
+				MyAnimator.SetFloat ("speed", rigidbody.velocity.sqrMagnitude);
+
 		
+		
+				if (MyAnimator.GetCurrentAnimatorStateInfo (0).nameHash == stateAttack) {
+//						MyAnimator.SetBool ("idleToAttack", false);
+
+						if (target != null) {
+								float rotSpeed = 15f;
+
+								Vector3 targetDirection = target.Tr.position - Tr.position;
+								Quaternion rotationToTarget = Quaternion.LookRotation (new Vector3 (targetDirection.x, 0f, targetDirection.z));
+								rigidbody.MoveRotation (Quaternion.Lerp (Tr.rotation, rotationToTarget, Time.fixedDeltaTime * rotSpeed));
+						}
+				}
 		}
 	
 		/// <summary>
@@ -113,11 +145,12 @@ public class PlayerController : MonoBehaviour
 				}
 				// Attack target if it have been found
 				if (target != null) {
+						//Tr.LookAt (new Vector3 (target.Tr.position.x, Tr.position.y, target.Tr.position.z));
 						float resultedDamage = weapon.Attack (target);
-//						Debug.Log (resultedDamage);
+						Debug.Log ("Attacking " + target.name + " to " + resultedDamage);
 				}
 				// Anyway play animation
-				animation.Play ();
+				MyAnimator.SetBool ("attack", true);
 		}
 	
 		/// <summary>
