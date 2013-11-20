@@ -4,11 +4,19 @@ using System.Collections;
 [System.Serializable]
 public class Weapon
 {
-	public float damage;
-	
-	public float Attack (Monster target)
-	{
-		float ret = Random.value;
-		return ret;
-	}
+		/// <summary>
+		/// The damage.
+		/// </summary>
+		public float damage;
+
+		/// <summary>
+		/// Attack the specified target.
+		/// </summary>
+		/// <param name="target">Target.</param>
+		public float Attack (Monster target)
+		{
+				float attackDamage = damage;
+				target.DoDamage (attackDamage);
+				return attackDamage;
+		}
 }
