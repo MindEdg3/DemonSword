@@ -1,0 +1,96 @@
+fileFormatVersion: 2
+guid: a200cac8936fa164293fcb6122bac954
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Cave_2x_straight
+    100002: Cave_corner
+    100004: Cave_cross
+    100006: //RootNode
+    100008: Stalagmite
+    100010: Stalagmites_small
+    100012: Stone_big
+    100014: Stone_small
+    400000: Cave_2x_straight
+    400002: Cave_corner
+    400004: Cave_cross
+    400006: //RootNode
+    400008: Stalagmite
+    400010: Stalagmites_small
+    400012: Stone_big
+    400014: Stone_small
+    2300000: Cave_2x_straight
+    2300002: Cave_corner
+    2300004: Cave_cross
+    2300006: Stalagmite
+    2300008: Stalagmites_small
+    2300010: Stone_big
+    2300012: Stone_small
+    3300000: Cave_2x_straight
+    3300002: Cave_corner
+    3300004: Cave_cross
+    3300006: Stalagmite
+    3300008: Stalagmites_small
+    3300010: Stone_big
+    3300012: Stone_small
+    4300000: Cave_cross
+    4300002: Cave_corner
+    4300004: Stalagmites_small
+    4300006: Stone_small
+    4300008: Stone_big
+    4300010: Stalagmite
+    4300012: Cave_2x_straight
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 2
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  userData: 

@@ -70,10 +70,29 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector3 cameraRotation = MyCameraTr.rotation.eulerAngles;
 		Vector3 forceDirection = Quaternion.Euler (0f, cameraRotation.y, 0f) * new Vector3 (Input.GetAxis ("Horizontal"), 0f, Input.GetAxis ("Vertical")) * speed;
+#if UNITY_IPHONE && !UNITY_EDITOR
+		Vector3 dir = Vector3.zero;
+
+		float sensitivity = 0.1f;
+		float yInitialValue = 0.25f;
+
+		if (Input.acceleration.x > sensitivity || Input.acceleration.x < -sensitivity) {
+			dir.x = Input.acceleration.x;
+		}
+		if (Input.acceleration.y + yInitialValue > sensitivity || Input.acceleration.y + yInitialValue < -sensitivity) {
+			dir.y = Input.acceleration.y + yInitialValue;
+		}
+
+		dir.Normalize();
+
+		forceDirection = Quaternion.Euler (0f, cameraRotation.y, 0f) * new Vector3 (dir.x, 0f, dir.y) * speed;
+#endif
 		rigidbody.AddForce (forceDirection, ForceMode.Acceleration);
 		if (forceDirection != Vector3.zero) {
 			rigidbody.MoveRotation (Quaternion.LookRotation (forceDirection));
 		}
+
+		
 	}
 	
 	/// <summary>
